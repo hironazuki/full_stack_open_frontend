@@ -1,10 +1,28 @@
 import React, { useState } from 'react'
 
-const PersonForm = ({addPerson}) => {
+const PersonForm = ({persons, setPersons}) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   
+  const addPerson = (event) => {
+    event.preventDefault()
+    const validateName = persons.some(person => person.name === newName)
+    console.log(validateName)
+    if (validateName) {
+      window.alert(`${newName} is already added to phonebook`)
+    } else {
+      const newPerson = {
+        name: newName,
+        number: newNumber
+      }
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+      setNewNumber('')
+    }
+  }
+
   const handleNameChange = (event) => {
+    console.log(event.target.value)
     setNewName(event.target.value)
   }
   const handleNumberChange = (event) => {
