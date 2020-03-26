@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 
-const PersonForm = ({persons, setPersons}) => {
+import personsService from '../services/persons'
+
+const PersonForm = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  
+
   const addPerson = (event) => {
     event.preventDefault()
     const validateName = persons.some(person => person.name === newName)
-    console.log(validateName)
     if (validateName) {
       window.alert(`${newName} is already added to phonebook`)
     } else {
@@ -15,9 +16,13 @@ const PersonForm = ({persons, setPersons}) => {
         name: newName,
         number: newNumber
       }
-      setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewNumber('')
+      personsService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
