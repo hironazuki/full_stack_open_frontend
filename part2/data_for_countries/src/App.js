@@ -9,7 +9,6 @@ const App = () => {
   const [searchCountry, setSearchCountry] = useState('')
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get(' https://restcountries.eu/rest/v2/all')
       .then(response => {
@@ -30,7 +29,7 @@ const App = () => {
     <div>
       <Filter handleSearchCountryChange={handleSearchCountryChange} searchCountry={searchCountry} />
 
-      <Countries countriesToShow={countriesToShow} />
+      <Countries countriesToShow={countriesToShow} setSearchCountry={setSearchCountry} />
     </div>
   )
 }

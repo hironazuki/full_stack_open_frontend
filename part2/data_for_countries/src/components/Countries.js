@@ -1,12 +1,11 @@
 import React from 'react'
 
-const Country = ({country}) => {
-  console.log(country)
 
+const Country = ({country}) => {
   return(
     <div>
       <h2>{country.name}</h2>
-      <p>capital {country.capiral}</p>
+      <p>capital {country.capital}</p>
       <p>population {country.population}</p>
       <h3>languages</h3>
       <ul>
@@ -18,7 +17,10 @@ const Country = ({country}) => {
     </div>
   )
 }
-const Countries = ({countriesToShow}) => {
+const Countries = ({countriesToShow, setSearchCountry}) => {
+  const showCountry = (country) => {
+    setSearchCountry(country.name)
+  }
   if (countriesToShow.length === 1 ) {
     return(
       <div>
@@ -30,7 +32,10 @@ const Countries = ({countriesToShow}) => {
       <div>
         {
           countriesToShow.map(country =>
-            <p key={country.name}>{country.name}</p>
+            <p key={country.name}>
+              {country.name}
+              <button onClick={() => showCountry(country)}>show</button>
+            </p>
           )
         }
       </div>
