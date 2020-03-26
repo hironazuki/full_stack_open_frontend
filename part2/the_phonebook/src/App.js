@@ -18,9 +18,10 @@ const App = () => {
         console.log('promise fulfilled')
         setPersons(initialPersons)
       })
-  }, [])
+  }, [setPersons])
 
-
+  
+  console.log(`those ${persons.length}`)
   const handleSearchNameChange = (event) => {
     setSearchName(event.target.value)
   }
@@ -41,7 +42,7 @@ const App = () => {
 
       <h3>Numbers</h3>
       
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} persons={persons} setPersons={setPersons} />
     </div>
   )
 }

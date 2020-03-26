@@ -8,14 +8,31 @@ const PersonForm = ({ persons, setPersons }) => {
 
   const addPerson = (event) => {
     event.preventDefault()
+
+    const newPerson = {
+      name: newName,
+      number: newNumber
+    }
+
     const validateName = persons.some(person => person.name === newName)
+    
     if (validateName) {
-      window.alert(`${newName} is already added to phonebook`)
-    } else {
-      const newPerson = {
-        name: newName,
-        number: newNumber
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const updatePerson = persons.find(n => n.name === newName)
+        personsService
+          .update(updatePerson.id, newPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== updatePerson.id ? person : returnedPerson))
+          })
+          .catch((error) => {
+            alert(
+              `the person '${updatePerson.name}' was already deleted from server`
+            )
+            console.log(error)
+            setPersons(persons.filter(n => n.id !== updatePerson.id))
+          })
       }
+    } else {
       personsService
         .create(newPerson)
         .then(returnedPerson => {
