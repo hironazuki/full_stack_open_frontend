@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import personsService from '../services/persons'
 
-const PersonForm = ({ persons, setPersons, setAlertMessage }) => {
+const PersonForm = ({ persons, setPersons, setSuccessMessage, setErrorMessage }) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
@@ -25,15 +25,18 @@ const PersonForm = ({ persons, setPersons, setAlertMessage }) => {
             setPersons(persons.map(person => person.id !== updatePerson.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
-            setAlertMessage(`Updated ${updatePerson.name}`)
+            setSuccessMessage(`Updated ${updatePerson.name}`)
             setTimeout(() => {
-              setAlertMessage(null)
+              setSuccessMessage(null)
             }, 5000)
           })
           .catch((error) => {
-            alert(
-              `the person '${updatePerson.name}' was already deleted from server`
+            setErrorMessage(
+              `Infomation of ${updatePerson.name} has already been removed from server`
             )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
             console.log(error)
             setPersons(persons.filter(n => n.id !== updatePerson.id))
           })
@@ -45,9 +48,9 @@ const PersonForm = ({ persons, setPersons, setAlertMessage }) => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setAlertMessage(`Added ${returnedPerson.name}`)
+          setSuccessMessage(`Added ${returnedPerson.name}`)
           setTimeout(() => {
-            setAlertMessage(null)
+            setSuccessMessage(null)
           }, 5000)
         })
     }

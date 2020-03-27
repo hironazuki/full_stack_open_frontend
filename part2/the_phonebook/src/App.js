@@ -7,9 +7,8 @@ import Filter from './components/Filter'
 import personsService from './services/persons'
 
 
-const Notification = ({ message }) => {
+const Notification = ({ successMessage, errorMessage }) => {
   const notificationStyle = {
-    color: 'green',
     background: 'lightgrey',
     fontSize: 20,
     borderStyle: 'solid',
@@ -17,21 +16,30 @@ const Notification = ({ message }) => {
     padding: 10,
     marginBottom: 10,
   }
-  if (message === null) {
-    return null
+  if (successMessage) {
+    return (
+      <div style={{...notificationStyle, color:'green'}} >
+        {successMessage}
+      </div>
+    )
   }
-
+  if (errorMessage) {
+    return (
+      <div style={{ ...notificationStyle, color: 'red' }} >
+        {errorMessage}
+      </div>
+    )
+  }
   return (
-    <div style={notificationStyle}>
-      {message}
-    </div>
+    null
   )
 }
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [searchName, setSearchName] = useState('')
-  const [alertMessage, setAlertMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
 
   useEffect(() => {
@@ -58,13 +66,13 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={alertMessage} />
+      <Notification successMessage={successMessage} errorMessage={errorMessage} />
 
       <Filter handleSearchNameChange={handleSearchNameChange} searchName={searchName} />
 
       <h3>add a new</h3>
 
-      <PersonForm persons={persons} setPersons={setPersons} setAlertMessage={setAlertMessage} />
+      <PersonForm persons={persons} setPersons={setPersons} setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage} />
 
       <h3>Numbers</h3>
       
