@@ -37,20 +37,25 @@ const PersonForm = ({ persons, setPersons, setSuccessMessage, setErrorMessage })
             setTimeout(() => {
               setErrorMessage(null)
             }, 5000)
-            console.log(error)
             setPersons(persons.filter(n => n.id !== updatePerson.id))
           })
       }
     } else {
       personsService
         .create(newPerson)
-        .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
+        .then(createdPerson => {
+          setPersons(persons.concat(createdPerson))
           setNewName('')
           setNewNumber('')
-          setSuccessMessage(`Added ${returnedPerson.name}`)
+          setSuccessMessage(`Added ${createdPerson.name}`)
           setTimeout(() => {
             setSuccessMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
           }, 5000)
         })
     }
