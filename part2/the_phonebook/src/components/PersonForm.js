@@ -31,13 +31,20 @@ const PersonForm = ({ persons, setPersons, setSuccessMessage, setErrorMessage })
             }, 5000)
           })
           .catch((error) => {
-            setErrorMessage(
-              `Infomation of ${updatePerson.name} has already been removed from server`
-            )
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
-            setPersons(persons.filter(n => n.id !== updatePerson.id))
+            if (error.response.status === 400) {
+              setErrorMessage(error.response.data.error)
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 5000)
+            } else {
+              setErrorMessage(
+                `Infomation of ${updatePerson.name} has already been removed from server`
+              )
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 5000)
+              setPersons(persons.filter(n => n.id !== updatePerson.id))
+            }
           })
       }
     } else {
