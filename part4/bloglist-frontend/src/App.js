@@ -50,7 +50,7 @@ const App = () => {
       }, 5000)
     }
   }
-  
+
   const updateBlog = async (blogId) => {
     const blog = blogs.find(n => n.id === blogId.toString())
     try {
@@ -59,12 +59,12 @@ const App = () => {
       setBlogs(blogs.map(blog => blog.id !== blogId ? blog : updateBlog))
       setSuccessMessage(`blog ${blog.title} add likes by ${user.username}`)
       setTimeout(() => {
-          setSuccessMessage(null)
+        setSuccessMessage(null)
       }, 5000)
     } catch(exception) {
       setErrorMessage(`Blog '${blog.title}' was already deleted from server`)
       setTimeout(() => {
-          setErrorMessage(null)
+        setErrorMessage(null)
       }, 5000)
       setBlogs(blogs.filter(n => n.id !== blogId))
     }
@@ -78,12 +78,12 @@ const App = () => {
         setBlogs(blogs.filter(blog => blog.id !== blogId))
         setSuccessMessage(`removed blog ${blog.title}`)
         setTimeout(() => {
-            setSuccessMessage(null)
+          setSuccessMessage(null)
         }, 5000)
       } catch(exception) {
-        setErrorMessage(`missing remove blog`)
+        setErrorMessage('missing remove blog')
         setTimeout(() => {
-            setErrorMessage(null)
+          setErrorMessage(null)
         }, 5000)
         setBlogs(blogs.filter(n => n.id !== blogId))
       }
@@ -106,7 +106,7 @@ const App = () => {
       setPassword('')
       setSuccessMessage(`logged in with ${user.username}`)
       setTimeout(() => {
-          setSuccessMessage(null)
+        setSuccessMessage(null)
       }, 5000)
     } catch (exception) {
       setErrorMessage('Wrong username or password')
@@ -121,14 +121,14 @@ const App = () => {
       window.localStorage.removeItem('loggedBlogListUser')
       setSuccessMessage(`logged out with ${user.username}`)
       setTimeout(() => {
-          setSuccessMessage(null)
+        setSuccessMessage(null)
       }, 5000)
       setUser(null)
     }
   }
   const loginForm = () => (
     <Togglable openLabel='login' closeLabel='cancel'>
-      <LoginForm 
+      <LoginForm
         username={username}
         password={password}
         handleUsernameChange={({ target }) => setUsername(target.value)}
@@ -161,8 +161,8 @@ const App = () => {
   return (
     <div>
       <Notification successMessage={successMessage} errorMessage={errorMessage} />
-      {user === null 
-        ? loginForm() 
+      {user === null
+        ? loginForm()
         : blogList()
       }
     </div>
