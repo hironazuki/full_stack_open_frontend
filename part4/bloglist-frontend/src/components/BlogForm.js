@@ -1,35 +1,23 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 
-const BlogForm = ({ setBlogs, blogs, setSuccessMessage, setErrorMessage}) => {
+const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const addBlog = async (event) => {
+  const addBlog = (event) => {
     event.preventDefault()
-    const blogObject = {
-      title,
-      author,
-      url
-    }
-    try {
-      const newBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(newBlog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setSuccessMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    } catch(exception) {
-      setErrorMessage('wrong blogs parameter')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
+    createBlog({
+      title: title,
+      author: author,
+      url: url,
+    })
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
+
   return(
     <>
       <h2>create new</h2>
