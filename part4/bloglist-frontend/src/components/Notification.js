@@ -11,14 +11,14 @@ const Notification = ({ successMessage, errorMessage }) => {
   }
   if (successMessage) {
     return (
-      <div style={{ ...notificationStyle, color: 'green' }} >
+      <div className="error" style={{ ...notificationStyle, color: 'green' }} >
         {successMessage}
       </div>
     )
   }
   if (errorMessage) {
     return (
-      <div style={{ ...notificationStyle, color: 'red' }} >
+      <div className="error" style={{ ...notificationStyle, color: 'red' }} >
         {errorMessage}
       </div>
     )

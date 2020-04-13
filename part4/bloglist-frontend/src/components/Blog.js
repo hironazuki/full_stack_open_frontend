@@ -23,11 +23,12 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
       {blog.title}
       <Togglable openLabel='view' closeLabel='hide'>
         <div>
-          {blog.url}
+          <span id="blogUrl">{blog.url}</span>
           <br />
-          {blog.likes} <button onClick={() => addLike(blog.id)}>like</button>
+          <span id="blogLikes">{blog.likes}</span>
+          <button onClick={() => addLike(blog.id)}>like</button>
           <br />
-          {blog.author}
+          <span id="blogAuthor">{blog.author}</span>
           <br />
           <button onClick={() => removeBlog(blog.id)}>remove</button>
         </div>

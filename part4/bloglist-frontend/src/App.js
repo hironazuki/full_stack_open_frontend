@@ -85,7 +85,6 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
-        setBlogs(blogs.filter(n => n.id !== blogId))
       }
     }
   }
@@ -153,9 +152,11 @@ const App = () => {
         <button onClick={() => handleLogout()}>logout</button>
       </h3>
       {blogForm()}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} />
-      )}
+      <div id="blogs">
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} />
+        )}
+      </div>
     </>
   )
   return (
