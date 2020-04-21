@@ -16,9 +16,9 @@ const BlogForm = () => {
       author: event.target.author.value,
       url: event.target.url.value,
     }
-    blogFormRef.current.toggleVisibility()
     try {
       dispatch(createBlog(newBlog))
+      blogFormRef.current.toggleVisibility()
       event.target.title.value = ''
       event.target.author.value = ''
       event.target.url.value = ''
