@@ -8,6 +8,7 @@ import { setNotification } from '../reducers/notificationReducer'
 const Blog = () => {
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
+  const loginUser = useSelector(state => state.login)
   const id = useParams().id
   const blog = blogs.find(n => n.id === id) 
   const addLike = (blog) => {
@@ -22,7 +23,7 @@ const Blog = () => {
     }
   }
 
-  if (!blog) {
+  if (!blog || !loginUser) {
     return null
   }
 
@@ -36,7 +37,9 @@ const Blog = () => {
       <br />
       <span id="blogAuthor">{blog.author}</span>
       <br />
-      <button onClick={() => removeBlog(blog)}>remove</button>
+      {blog.user.id === loginUser.id &&
+        <button onClick={() => removeBlog(blog)}>remove</button>
+      }
     </>
   )
 }

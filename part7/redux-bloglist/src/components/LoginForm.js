@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { loggedInUser, logoutUser } from '../reducers/loginReducer'
+import { loggedInUser } from '../reducers/loginReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 
@@ -14,23 +14,13 @@ const LoginForm =(props) => {
       username: event.target.username.value,
       password: event.target.password.value
     }
-    try {
-      dispatch(loggedInUser(user))
-      event.target.username.value = ''
-      event.target.password.value = ''
-      dispatch(setNotification(`logged in with ${user.username}`, 10, 'green'))
-    } catch (exception) {
-      dispatch(setNotification('Wrong username or password', 10, 'red'))
-    }
+    dispatch(loggedInUser(user))
+  }
+  if (loginUser) {
+    return null
   }
 
-  const handleLogout = () => {
-    if (window.confirm(`logout ${loginUser.name}?`)) {
-      dispatch(logoutUser())
-    }
-  }
-
-  const loginForm = () => (
+  return (
     <div>
       <h2>Login</h2>
 
@@ -51,24 +41,6 @@ const LoginForm =(props) => {
         <button id="login-button" type="submit">login</button>
       </form>
     </div>
-  )
-
-  const logoutForm = () => (
-    <>
-      <h3>
-        {`${loginUser.name} logged in`}
-      </h3>
-      <button onClick={() => handleLogout()}>logout</button>
-    </>
-  )
-
-  return (
-    <>
-      {loginUser === null
-        ? loginForm()
-        : logoutForm()
-      }
-    </>
   )
 }
 

@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { initializeUsers } from '../reducers/userReducer'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
@@ -34,6 +35,7 @@ export const initializeBlogs = () => {
 export const createBlog = blog => {
   return async dispatch => {
     const newBlog = await blogService.createNew(blog)
+    dispatch(initializeUsers())
     dispatch({
       type: 'NEW_BLOG',
       data: newBlog,
@@ -55,6 +57,7 @@ export const likedBlog = (blog) => {
 export const deleteBlog = (id) => {
   return async dispatch => {
     await blogService.deleteBlog(id)
+    dispatch(initializeUsers())
     dispatch({
       type: 'DELETE_BLOG',
       data: id

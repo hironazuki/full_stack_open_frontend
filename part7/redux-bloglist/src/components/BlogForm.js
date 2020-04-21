@@ -27,7 +27,6 @@ const BlogForm = () => {
       dispatch(setNotification('Wrong create blog', 10, 'red'))
     }
   }
-
   return(
     <Togglable openLabel='create new' closeLabel='cancel' ref={blogFormRef}>
       <h2>create new</h2>

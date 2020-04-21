@@ -1,6 +1,8 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
+import { setNotification } from '../reducers/notificationReducer'
+
 const loginReducer = (state = null, action) => {
   switch (action.type) {
   case 'LOGIN_USER':
@@ -26,16 +28,20 @@ export const initializeLoginUser = (loggedUserJSON) => {
 
 export const loggedInUser = (user) => {
   return async dispatch => {
-    const loginUser = await loginService.login(user)
-    window.localStorage.setItem(
-      'loggedBlogListUser', JSON.stringify(loginUser)
-    )
-
-    blogService.setToken(loginUser.token)
-    dispatch({
-      type: 'LOGIN_USER',
-      data: loginUser,
-    })
+    try {
+      const loginUser = await loginService.login(user)
+      window.localStorage.setItem(
+        'loggedBlogListUser', JSON.stringify(loginUser)
+      )
+      blogService.setToken(loginUser.token)
+      dispatch({
+        type: 'LOGIN_USER',
+        data: loginUser,
+      })
+      dispatch(setNotification(`logged in with ${user.username}`, 10, 'green'))
+    } catch (exception) {
+      dispatch(setNotification('Wrong username or password', 10, 'red'))
+    }
   }
 }
 
