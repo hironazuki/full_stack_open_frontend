@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import Notification from './components/Notification'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
+import User from './components/User'
 import Users from './components/Users'
 import { initializeLoginUser } from './reducers/loginReducer'
+import { initializeUsers } from './reducers/userReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -26,6 +28,10 @@ const App = () => {
   }, [dispatch])
 
   useEffect(() => {
+    dispatch(initializeUsers())
+  }, [dispatch])
+
+  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogListUser')
     if (loggedUserJSON) {
       dispatch(initializeLoginUser(loggedUserJSON))
@@ -39,6 +45,9 @@ const App = () => {
         <LoginForm />
         <Router>
           <Switch>
+            <Route path='/users/:id'>
+              <User />
+            </Route>
             <Route path='/users'>
               <Users />
             </Route>
