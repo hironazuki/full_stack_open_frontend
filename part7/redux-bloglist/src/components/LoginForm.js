@@ -54,10 +54,12 @@ const LoginForm =(props) => {
   )
 
   const logoutForm = () => (
-    <h3>
-      {`${loginUser.name} logged in`}
+    <>
+      <h3>
+        {`${loginUser.name} logged in`}
+      </h3>
       <button onClick={() => handleLogout()}>logout</button>
-    </h3>
+    </>
   )
 
   return (
