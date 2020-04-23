@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 
 import { likedBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import Comments from './Comments'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -11,6 +12,7 @@ const Blog = () => {
   const loginUser = useSelector(state => state.login)
   const id = useParams().id
   const blog = blogs.find(n => n.id === id) 
+  console.log(blog)
   const addLike = (blog) => {
     dispatch(likedBlog(blog))
     dispatch(setNotification(`Liked the ${blog.title}`, 10, 'green'))
@@ -40,6 +42,15 @@ const Blog = () => {
       {blog.user.id === loginUser.id &&
         <button onClick={() => removeBlog(blog)}>remove</button>
       }
+      {/* <h4>comments</h4>
+      <ui>
+        {
+          blog.comments.map(comment =>
+            <li>{comment.content}</li>
+          )
+        }
+      </ui> */}
+      <Comments blog={blog} />
     </>
   )
 }

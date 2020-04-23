@@ -24,7 +24,6 @@ import {
 const App = () => {
   const dispatch = useDispatch()
   const loginUser = useSelector(state => state.login)
-  
   useEffect(() => {
     dispatch(initializeBlogs())
     dispatch(initializeUsers())

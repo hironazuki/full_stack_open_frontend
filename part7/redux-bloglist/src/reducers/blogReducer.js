@@ -1,5 +1,6 @@
 import blogService from '../services/blogs'
 import { initializeUsers } from '../reducers/userReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
@@ -15,6 +16,13 @@ const blogReducer = (state = [], action) => {
   case 'DELETE_BLOG': {
     const deleteId = action.data
     return state.filter(blog => blog.id !== deleteId)
+  }
+  case 'NEW_COMMENT': {
+    const id = action.data.blog.id
+    const blog = state.find(n => n.id === id)
+    const blogComments = blog.comments.concat(action.data.newComment)
+    const changeBlog = { ...blog, comments: blogComments }
+    return state.map(n => n.id !== id ? n : changeBlog)
   }
   default: {
     return state
@@ -62,6 +70,21 @@ export const deleteBlog = (id) => {
       type: 'DELETE_BLOG',
       data: id
     })
+  }
+}
+
+export const createComment = (blog, comment) => {
+  return async dispatch => {
+    try {
+      const newComment = await blogService.createComment(blog.id, comment)
+      dispatch({
+        type: 'NEW_COMMENT',
+        data: { blog, newComment }
+      })
+      dispatch(setNotification(`commented on the ${blog.title}`, 10, 'green'))
+    } catch (exception) {
+      dispatch(setNotification('Wrong add comment', 10, 'red'))
+    }
   }
 }
 
