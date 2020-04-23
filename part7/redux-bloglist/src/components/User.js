@@ -1,7 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
+
+import { ListGroup, ListGroupItem } from 'react-bootstrap'
 
 const User = () => {
   const users = useSelector(state => state.users)
@@ -15,11 +17,15 @@ const User = () => {
     <>
       <h2>{user.username}</h2>
       <h3>added blogs</h3>
-      <ul>
+      <ListGroup>
         {user.blogs.map(blog => 
-          <li key={blog.id}>{blog.title}</li>
+          <ListGroupItem key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>
+              {blog.title}
+            </Link>
+          </ListGroupItem>
         )}
-      </ul>
+      </ListGroup>
     </>
   )
 }

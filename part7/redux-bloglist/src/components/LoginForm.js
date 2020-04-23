@@ -4,6 +4,8 @@ import { loggedInUser } from '../reducers/loginReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 
+import { Form, Button } from 'react-bootstrap'
+
 const LoginForm =(props) => {
   const dispatch = useDispatch()
   const loginUser = useSelector(state => state.login)
@@ -23,23 +25,22 @@ const LoginForm =(props) => {
   return (
     <div>
       <h2>Login</h2>
-
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username:</Form.Label>
+          <Form.Control
             id="username"
+            name="Username"
           />
-        </div>
-        <div>
-          password
-          <input
+          <Form.Label>password:</Form.Label>
+          <Form.Control
             id="password"
             type="password"
+            name="Password"
           />
-        </div>
-        <button id="login-button" type="submit">login</button>
-      </form>
+          <Button id="login-button" variant="primary" type="submit" className='mt-2'>login</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }

@@ -4,20 +4,7 @@ import BlogForm from './BlogForm'
 import { useSelector } from 'react-redux'
 import { Link } from "react-router-dom"
 
-const BlogItem = ({ blog }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-  return (
-  <div style={blogStyle}>
-      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-  </div>
-  )
-}
+import { Table } from 'react-bootstrap'
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
@@ -25,11 +12,28 @@ const BlogList = () => {
   return(
     <>
       <BlogForm />
-      <div id="blogs">
-        {blogs.map(blog =>
-          <BlogItem key={blog.id} blog={blog} />
-        )}
-      </div>
+      <Table striped>
+        <thead>
+          <tr>
+            <th>title</th>
+            <th>author</th>
+          </tr>
+        </thead>
+        <tbody>
+          {blogs.map(blog =>
+            <tr key={blog.id}>
+              <td>
+                <Link to={`/blogs/${blog.id}`}>
+                  {blog.title}
+                </Link>
+              </td>
+              <td>
+                {blog.author}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </>
   )
 }

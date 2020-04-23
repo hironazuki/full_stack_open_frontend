@@ -11,6 +11,8 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from './reducers/loginReducer'
 
+import { Button, Nav, Navbar } from 'react-bootstrap'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -55,36 +57,49 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <div>
-        <Link style={padding} to="/">blogs</Link>
-        <Link style={padding} to="/users">users</Link>
-        {loginUser
-          ? <>
-              <em>{loginUser.username} logged in</em>
-              <button onClick={() => handleLogout()}>logout</button>
-            </>
-          : <Link style={padding} to="/">login</Link>
-        }
-      </div>
-      <Notification />
-      <h2>blog app</h2>
-      <LoginForm />
-      <Switch>
-        <Route path='/blogs/:id'>
-          {loginUser && <Blog />}
-        </Route>
-        <Route path='/users/:id'>
-          {loginUser && <User />}
-        </Route>
-        <Route path='/users'>
-          {loginUser && <Users />}
-        </Route>
-        <Route path='/'>
-          {loginUser && <BlogList />}
-        </Route>
-      </Switch>
-    </Router>
+    <div className="container">
+      <Router>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#" as="span">
+                <Link style={padding} to="/blogs">blogs</Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                <Link style={padding} to="/users">users</Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                {loginUser
+                  ? <>
+                      <em>{loginUser.username} logged in</em>
+                      <Button onClick={() => handleLogout()}>logout</Button>
+                    </>
+                  : <Link style={padding} to="/">login</Link>
+                }
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <Notification />
+        <h2>blog app</h2>
+        <LoginForm />
+        <Switch>
+          <Route path='/blogs/:id'>
+            {loginUser && <Blog />}
+          </Route>
+          <Route path='/users/:id'>
+            {loginUser && <User />}
+          </Route>
+          <Route path='/users'>
+            {loginUser && <Users />}
+          </Route>
+          <Route path='/'>
+            {loginUser && <BlogList />}
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   )
 }
 

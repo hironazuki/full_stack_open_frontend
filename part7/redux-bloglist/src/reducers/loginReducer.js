@@ -38,9 +38,9 @@ export const loggedInUser = (user) => {
         type: 'LOGIN_USER',
         data: loginUser,
       })
-      dispatch(setNotification(`logged in with ${user.username}`, 10, 'green'))
+      dispatch(setNotification(`logged in with ${user.username}`, 10, 'success'))
     } catch (exception) {
-      dispatch(setNotification('Wrong username or password', 10, 'red'))
+      dispatch(setNotification('Wrong username or password', 10, 'danger'))
     }
   }
 }

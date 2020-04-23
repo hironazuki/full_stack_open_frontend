@@ -2,6 +2,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createComment } from '../reducers/blogReducer'
 
+import { Button, Form, ListGroup, ListGroupItem } from 'react-bootstrap'
+
 const Comments = ({ blog }) => {
   const dispatch = useDispatch()
   const addComment = (event) => {
@@ -15,24 +17,24 @@ const Comments = ({ blog }) => {
   return (
     <>
       <h4>comments</h4>
-      <form onSubmit={addComment}>
-        <div>
-          content:
-          <input
-            id='content'
+      <Form onSubmit={addComment}>
+        <Form.Group>
+          <Form.Label>content:</Form.Label>
+          <Form.Control
+            id="content"
             type="text"
             name="Content"
           />
-        </div>
-        <button id="comment-create-button" type="submit">add comment</button>
-      </form>
-      <ul>
+          <Button id="comment-create-button" variant="info" type="submit" className='mt-2'>add comment</Button>
+        </Form.Group>
+      </Form>
+      <ListGroup>
         {
           blog.comments.map(comment =>
-            <li key={comment.id}>{comment.content}</li>
+            <ListGroupItem key={comment.id}>{comment.content}</ListGroupItem>
           )
         }
-      </ul>
+      </ListGroup>
     </>
   )
 }

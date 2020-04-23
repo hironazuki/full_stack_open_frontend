@@ -81,9 +81,9 @@ export const createComment = (blog, comment) => {
         type: 'NEW_COMMENT',
         data: { blog, newComment }
       })
-      dispatch(setNotification(`commented on the ${blog.title}`, 10, 'green'))
+      dispatch(setNotification(`commented on the ${blog.title}`, 10, 'success'))
     } catch (exception) {
-      dispatch(setNotification('Wrong add comment', 10, 'red'))
+      dispatch(setNotification('Wrong add comment', 10, 'danger'))
     }
   }
 }
