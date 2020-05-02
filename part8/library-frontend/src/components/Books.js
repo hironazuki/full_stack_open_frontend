@@ -50,6 +50,7 @@ const Books = (props) => {
         {result.map((r, key) =>
           <button key={key} onClick={() => setGenre(`${r}`)}>{r}</button>
         )}
+        <button onClick={() => setGenre('')}>all genres</button>
       </div>
     )
   }

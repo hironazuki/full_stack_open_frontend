@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useLazyQuery } from '@apollo/client'
 import LoginForm from './components/LoginForm'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Recommend from './components/Recommend'
+
+import { ALL_BOOKS } from './queries'
 
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {
@@ -24,13 +26,22 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const client = useApolloClient()
 
+  const [getBooks, result] = useLazyQuery(ALL_BOOKS)
+  const [favGenreBooks, setfavGenreBooks] = useState(null)
+
   useEffect(() => {
     const token = localStorage.getItem('library-user-token')
     if (token) {
-      setToken(token)
+      setToken(JSON.parse(token))
     }
   }, [])
 
+  useEffect(() => {
+    if (result.data) {
+      setfavGenreBooks(result.data.allBooks)
+    }
+  }, [result.data])
+  
   const notify = (message) => {
     setErrorMessage(message)
     setTimeout(() => {
@@ -48,10 +59,16 @@ const App = () => {
     client.resetStore()
   }
 
+  const showFavGenreBooks = (name) => {
+    setPage('recommend')
+    console.log(typeof token.user.favoriteGenre)
+    getBooks({ variables: { genre: token.user.favoriteGenre } })
+  }
+
   const whenLogin = () => (
     <>
       <button onClick={() => setPage('add')}>add book</button>
-      <button onClick={() => setPage('recommend')}>recommend</button>
+      <button onClick={showFavGenreBooks}>recommend</button>
       <button onClick={logout}>logout</button>
     </>
   )
@@ -88,6 +105,8 @@ const App = () => {
 
       <Recommend
         show={page === 'recommend'}
+        favGenreBooks={favGenreBooks}
+        token={token}
       />
     </div>
   )

@@ -14,10 +14,9 @@ const LoginForm = ({ show, setError, setToken, setPage }) => {
 
   useEffect(() => {
     if (result.data) {
-      console.log(result.data)
-      const token = result.data.login.value
+      const token = result.data.login
       setToken(token)
-      localStorage.setItem('library-user-token', token)
+      localStorage.setItem('library-user-token', JSON.stringify(token))
     }
   }, [result.data]) // eslint-disable-line
 
