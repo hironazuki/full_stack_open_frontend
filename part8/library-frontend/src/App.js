@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useApolloClient, useLazyQuery } from '@apollo/client'
+import { useApolloClient, useLazyQuery, useSubscription } from '@apollo/client'
 import LoginForm from './components/LoginForm'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Recommend from './components/Recommend'
 
-import { ALL_BOOKS } from './queries'
+import { ALL_BOOKS, BOOK_ADDED } from './queries'
 
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {
@@ -28,6 +28,27 @@ const App = () => {
 
   const [getBooks, result] = useLazyQuery(ALL_BOOKS)
   const [favGenreBooks, setfavGenreBooks] = useState(null)
+
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) =>
+      set.map(p => p.id).includes(object.id)
+    
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) }
+      })
+    }
+  }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      notify(`${addedBook.title} added`)
+      updateCacheWith(addedBook)
+    }
+  })
 
   useEffect(() => {
     const token = localStorage.getItem('library-user-token')
@@ -59,9 +80,8 @@ const App = () => {
     client.resetStore()
   }
 
-  const showFavGenreBooks = (name) => {
+  const showFavGenreBooks = () => {
     setPage('recommend')
-    console.log(typeof token.user.favoriteGenre)
     getBooks({ variables: { genre: token.user.favoriteGenre } })
   }
 
