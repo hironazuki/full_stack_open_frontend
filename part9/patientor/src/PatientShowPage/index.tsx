@@ -7,6 +7,8 @@ import { Patient } from '../types';
 import { apiBaseUrl } from '../constants';
 import { useStateValue, showPatient } from '../state';
 
+import EntryDetails from './entryDetails';
+
 const PatientShowPage: React.FC = () => {
   const [{ patient }, dispatch] = useStateValue();
 
@@ -42,6 +44,10 @@ const PatientShowPage: React.FC = () => {
         </Header>
         <p>ssn: {patient.ssn}</p>
         <p>occupation: {patient.occupation}</p>
+        <Header as="h3">entries</Header>
+        {patient.entries.map(entry => (
+          <EntryDetails key={entry.id} entry={entry} />
+        ))}
       </div>
     </>
   );
