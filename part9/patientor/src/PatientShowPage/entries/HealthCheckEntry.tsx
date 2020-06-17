@@ -28,11 +28,10 @@ const HealthCheckEntryPage: React.FC<{ entry: HealthCheckEntry }> = ({
           }
         })()}
       />
-      {entry.diagnosisCodes
-        ? entry.diagnosisCodes.map((code, key) => (
-            <DiagnosisComponent code={code} key={key} />
-          ))
-        : null}
+      {entry.diagnosisCodes &&
+        entry.diagnosisCodes.map((code, index) => (
+          <DiagnosisComponent code={code} key={index} />
+        ))}
     </Message>
   );
 };

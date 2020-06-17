@@ -19,11 +19,10 @@ const OccupationalHealthcareEntryPage: React.FC<{
         <p>{`sickLeave: ${entry.sickLeave.startDate}~${entry.sickLeave.endDate}`}</p>
       ) : null}
 
-      {entry.diagnosisCodes
-        ? entry.diagnosisCodes.map((code, key) => (
-            <DiagnosisComponent code={code} key={key} />
-          ))
-        : null}
+      {entry.diagnosisCodes &&
+        entry.diagnosisCodes.map((code, index) => (
+          <DiagnosisComponent code={code} key={index} />
+        ))}
     </Message>
   );
 };

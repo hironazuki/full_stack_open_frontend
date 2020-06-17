@@ -1,20 +1,18 @@
 import React from 'react';
 import { useStateValue } from '../../state';
 
-const DiagnosisComponent: React.FC<{ code: string; key: number }> = ({
-  code,
-  key
-}) => {
+const DiagnosisComponent: React.FC<{ code: string }> = ({ code }) => {
   const [{ diagnoses }] = useStateValue();
-  if (diagnoses) {
-    return (
-      <li key={key}>
-        {code} {diagnoses[code].name}
-      </li>
-    );
+  if (!diagnoses) {
+    return null;
   }
 
-  return null;
+  const diagnoise = diagnoses.find(d => d.code === code);
+  return (
+    <li>
+      {code} {diagnoise && diagnoise.name}
+    </li>
+  );
 };
 
 export default DiagnosisComponent;

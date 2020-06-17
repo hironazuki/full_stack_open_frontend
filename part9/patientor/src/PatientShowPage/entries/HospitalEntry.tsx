@@ -13,11 +13,10 @@ const HospitalEntryPage: React.FC<{ entry: HospitalEntry }> = ({ entry }) => {
       </Message.Header>
       <p>{entry.description}</p>
       <Header as="h4">{`diacharge: date[${entry.discharge.date}] criteria[${entry.discharge.criteria}]`}</Header>
-      {entry.diagnosisCodes
-        ? entry.diagnosisCodes.map((code, key) => (
-            <DiagnosisComponent code={code} key={key} />
-          ))
-        : null}
+      {entry.diagnosisCodes &&
+        entry.diagnosisCodes.map((code, index) => (
+          <DiagnosisComponent code={code} key={index} />
+        ))}
     </Message>
   );
 };
